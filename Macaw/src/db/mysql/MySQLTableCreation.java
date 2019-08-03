@@ -19,6 +19,7 @@ public class MySQLTableCreation {
 			
 			// Step 2 Drop tables in case they exist.
 			Statement statement = conn.createStatement();
+			// the order cannot be change, foreign key restriction
 			String sql = "DROP TABLE IF EXISTS categories";
 			statement.executeUpdate(sql);
 			
@@ -82,7 +83,6 @@ public class MySQLTableCreation {
 			e.printStackTrace();
 		}
 	}
-	
 	
 }
 

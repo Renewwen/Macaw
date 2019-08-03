@@ -185,6 +185,8 @@ public class MySQLConnection implements DBConnection {
 		}
 
 		try {
+			// Why using ?,?,?,?  for security: SQL injection
+			// IGNORE: 有错误就跳过不做，不会终止程序
 			String sql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, item.getItemId());
