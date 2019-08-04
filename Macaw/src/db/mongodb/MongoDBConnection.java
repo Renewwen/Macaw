@@ -20,6 +20,16 @@ import entity.Item.ItemBuilder;
 import ticketmaster.TicketMasterClient;
 
 public class MongoDBConnection implements DBConnection {
+	
+	private static MongoDBConnection instance;
+
+	public static DBConnection getInstance() {
+		if (instance == null) {
+			instance = new MongoDBConnection();
+		}
+		return instance;
+	}
+		
 	private MongoClient mongoClient;
 	private MongoDatabase db;
 
@@ -83,7 +93,6 @@ public class MongoDBConnection implements DBConnection {
 		**********************/
 		db.getCollection("users").updateOne(eq("user_id", userId), 
 				new Document("$pullAll", new Document("favorite", itemIds)));
-
 	}
 
 	@Override
@@ -177,14 +186,18 @@ public class MongoDBConnection implements DBConnection {
 
 	@Override
 	public String getFullname(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		FindIterable<Document> iterable = db.getCollection("users").find(new Document("user_id", userId));
+		Document document = iterable.first();
+		String firstName = document.getString("first_name");
+		String lastName = document.getString("last_name");
+		return firstName + " " + lastName;
 	}
 
 	@Override
 	public boolean verifyLogin(String userId, String password) {
-		// TODO Auto-generated method stub
-		return false;
+		FindIterable<Document> iterable = db.getCollection("users").find(new Document("user_id", userId));
+		Document document = iterable.first();
+		return document.getString("password").equals(password);
 	}
 
 }
