@@ -1,5 +1,6 @@
 package db.mongodb;
 
+import java.sql.PreparedStatement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,11 @@ public class MongoDBConnection implements DBConnection {
 		// Connects to local mongodb server.
 		mongoClient = MongoClients.create();
 		db = mongoClient.getDatabase(MongoDBUtil.DB_NAME);
+	}
+	
+	@Override
+	public boolean registerUser(String userId, String password, String firstname, String lastname) {
+		return false;	
 	}
 	
 	@Override
